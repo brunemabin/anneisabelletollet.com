@@ -115,6 +115,7 @@ nav{justify-content:stretch;gap:0}
 <figure class="video-card"><button class="video-thumb" data-id="e2_5XSiMT8g" type="button"><img alt="Rencontre avec un combattant d’Al-Qaïda, reportage France 24" src="assets/yt-e2_5XSiMT8g.jpg"/><span class="play"><span>▶</span></span></button><figcaption><span class="src">France 24</span>Rencontre avec un combattant d’Al-Qaïda</figcaption></figure>
 <figure class="video-card"><button class="video-thumb" data-id="GY5W6nv-zpY" type="button"><img alt="Entretien Sud Radio : infiltrée dans la République islamique d’Iran" src="assets/yt-GY5W6nv-zpY.jpg"/><span class="play"><span>▶</span></span></button><figcaption><span class="src">Sud Radio</span>Elle s’est infiltrée dans la République islamique d’Iran</figcaption></figure>
 <figure class="video-card"><button class="video-thumb" data-id="HovoNDRn_-g" type="button"><img alt="Déclaration orale d’Anne-Isabelle Tollet aux Nations unies" src="assets/yt-HovoNDRn_-g.jpg"/><span class="play"><span>▶</span></span></button><figcaption><span class="src">Licra · Nations unies</span>Déclaration orale aux Nations unies</figcaption></figure>
+<figure class="video-card"><button class="video-thumb" data-src="assets/video-extrait.mp4" type="button"><img alt="Anne-Isabelle Tollet invitée sur RTL" src="assets/video-extrait.jpg"/><span class="play"><span>▶</span></span></button><figcaption><span class="src">RTL</span>Entretien à l’antenne</figcaption></figure>
 </div></section>
 <section id="apropos" style="background:#f0ebe5"><div class="split"><img alt="Anne-Isabelle Tollet au Cherche Midi" src="assets/cherche-midi.jpg" style="width:100%;max-height:620px;object-fit:cover;object-position:center 22%"/><div><div class="kicker">À propos</div><h2>Journaliste, Grand reporter, Autrice.</h2><p class="intro">Depuis plus de vingt-cinq ans, je parcours des pays et des territoires difficiles d’accès. Mes livres prolongent ces rencontres et ces enquêtes, au-delà des frontières et des récits officiels.</p><a class="btn dark" href="https://fr.wikipedia.org/wiki/Anne-Isabelle_Tollet" rel="noopener" target="_blank">Voir ma notice Wikipédia ↗</a></div></div></section>
 <section class="contact" id="contact"><div class="kicker">Écrire à Anne-Isabelle Tollet</div><h2>Contact</h2><p class="intro">Demandes d’interviews, rencontres en librairie, conférences, festivals et projets audiovisuels.</p><form action="https://formsubmit.co/aitollet@gmail.com" method="POST"><input name="_subject" type="hidden" value="Message depuis anneisabelletollet.com"/><input name="_template" type="hidden" value="table"/><input name="_next" type="hidden" value="https://anneisabelletollet.com/merci.html"/><p style="display:none"><label>Ne pas remplir <input name="_honey"/></label></p><label>Nom<input autocomplete="name" name="nom" required=""/></label><label>Adresse e-mail<input autocomplete="email" name="email" required="" type="email"/></label><label>Organisation / média<input name="organisation"/></label><label>Objet<select name="objet"><option>Interview / presse</option><option>Rencontre littéraire</option><option>Conférence / droits humains</option><option>Projet audiovisuel</option><option>Autre demande</option></select></label><label>Message<textarea name="message" required=""></textarea></label><button class="btn" type="submit">Envoyer mon message →</button></form><p class="notice">Les messages envoyés depuis ce formulaire sont transmis directement par e-mail. Vos coordonnées ne sont utilisées que pour vous répondre.</p></section><footer><span>© 2026 Anne-Isabelle Tollet</span><span>Grand reportage · Livres · Droits humains</span><span><a href="mentions-legales.html">Mentions légales</a></span></footer>
@@ -147,12 +148,19 @@ nav{justify-content:stretch;gap:0}
 (function(){
  document.querySelectorAll('.video-thumb').forEach(function(b){
   b.addEventListener('click',function(){
-   var f=document.createElement('iframe');
+   var f;
+   if(b.dataset.src){                       // vidéo hébergée sur le site
+    f=document.createElement('video');
+    f.src=b.dataset.src; f.controls=true; f.autoplay=true; f.playsInline=true;
+    f.poster=b.querySelector('img').src;
+   }else{                                   // lecteur YouTube sans cookie
+    f=document.createElement('iframe');
+    f.src='https://www.youtube-nocookie.com/embed/'+b.dataset.id+'?autoplay=1&rel=0';
+    f.allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+    f.setAttribute('allowfullscreen','');
+   }
    f.className='video-frame';
-   f.src='https://www.youtube-nocookie.com/embed/'+b.dataset.id+'?autoplay=1&rel=0';
    f.title=b.querySelector('img').alt;
-   f.allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
-   f.setAttribute('allowfullscreen','');
    b.replaceWith(f);
   });
  });
